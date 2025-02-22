@@ -9,8 +9,10 @@ Chapter 1
 into a String s.
 <details>
 <summary> Solution</summary>
+```
 String s = "";
         for (int n = N; n > 0; n /= 2) {
             s = (n % 2) + s;
         }
+```
 </details>
