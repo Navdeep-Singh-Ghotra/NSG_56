@@ -22,6 +22,7 @@ for (int n = N; n > 0; n /= 2) {
 2. Write a code fragment that prints the contents of a two-dimensional boolean
 array, using * to represent true and a space to represent false. Include row and column
 numbers.
+<details>
 <summary> Solution</summary>
 
 ```
