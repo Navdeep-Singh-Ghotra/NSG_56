@@ -1,2 +1,4 @@
 algs4-data/
 *.class
+.vscode/
+bin
