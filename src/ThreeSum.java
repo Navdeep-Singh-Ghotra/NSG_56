@@ -107,6 +107,7 @@ public class ThreeSum {
     public static void main(String[] args) {
         In in = new In(args[0]);
         int[] a = in.readAllInts();
+        System.out.println("this prints :" + in.toString());
 
         Stopwatch timer = new Stopwatch();
         int count = count(a);
