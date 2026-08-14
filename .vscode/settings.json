@@ -1,6 +1,6 @@
 {
     "java.project.referencedLibraries": [
-        "/usr/local/algs4/algs4.jar"
+        "/lib/algs4.jar"
     ],
     "java.project.sourcePaths": [
         "src"

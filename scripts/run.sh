@@ -1,33 +1,27 @@
 #!/bin/bash
-# Enhanced run script using java-algs4
+# run.sh - Simple run script
 
 if [ -z "$1" ]; then
     echo "Usage: ./scripts/run.sh <class-name> [data-file]"
-    echo "Examples:"
-    echo "  ./scripts/run.sh algorithms/week1/ThreeSum"
-    echo "  ./scripts/run.sh algorithms/week1/ThreeSum ../data/tiny/1Kints.txt"
-    echo "  ./scripts/run.sh tests/TestBinarySearch"
+    echo "Example: ./scripts/run.sh SocialNetwork src/01-funda/data/socialNetwork.txt"
     exit 1
 fi
 
 CLASS_NAME="$1"
 DATA_FILE="${2:-}"
 
+# Get project root
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(dirname "$SCRIPT_DIR")"
+
 echo "🚀 Running $CLASS_NAME..."
 
-# Check if java-algs4 exists
-if ! command -v java-algs4 &> /dev/null; then
-    echo "❌ java-algs4 not found. Using standard java with manual classpath..."
-    if [ -z "$DATA_FILE" ]; then
-        java -cp .:../lib/algs4.jar "$CLASS_NAME"
-    else
-        java -cp .:../lib/algs4.jar "$CLASS_NAME" "$DATA_FILE"
-    fi
+# Force standard java (ignore java-algs4)
+if [ -z "$DATA_FILE" ]; then
+    java -cp "$PROJECT_ROOT/lib/algs4.jar:$PROJECT_ROOT/src/01-funda/code:$PROJECT_ROOT/src/01-funda/clients" "$CLASS_NAME"
 else
-    echo "🔧 Using java-algs4..."
-    if [ -z "$DATA_FILE" ]; then
-        java-algs4 "$CLASS_NAME"
-    else
-        java-algs4 "$CLASS_NAME" "$DATA_FILE"
+    if [[ "$DATA_FILE" != /* ]]; then
+        DATA_FILE="$PROJECT_ROOT/$DATA_FILE"
     fi
+    java -cp "$PROJECT_ROOT/lib/algs4.jar:$PROJECT_ROOT/src/01-funda/code:$PROJECT_ROOT/src/01-funda/clients" "$CLASS_NAME" "$DATA_FILE"
 fi

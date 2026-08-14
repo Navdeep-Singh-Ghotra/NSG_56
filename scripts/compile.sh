@@ -1,39 +1,35 @@
 #!/bin/bash
-# Enhanced compile script using javac-algs4
+# compile.sh - Compile all Java files in a directory
 
 if [ -z "$1" ]; then
-    echo "Usage: ./scripts/compile.sh <java-file>"
+    echo "Usage: ./scripts/compile.sh <directory>"
     echo "Examples:"
-    echo "  ./scripts/compile.sh algorithms/week1/ThreeSum.java"
-    echo "  ./scripts/compile.sh tests/TestBinarySearch.java"
+    echo "  ./scripts/compile.sh 01-funda/clients/"
+    echo "  ./scripts/compile.sh 01-funda/code/"
     exit 1
 fi
 
-JAVA_FILE="$1"
-CLASS_NAME=$(basename "$JAVA_FILE" .java)
-DIR=$(dirname "$JAVA_FILE")
+DIR="$1"
+# Remove trailing slash if present
+DIR="${DIR%/}"
 
-echo "📦 Compiling $JAVA_FILE..."
-echo "📁 Directory: $DIR"
-echo "🎯 Class: $CLASS_NAME"
+echo "📦 Compiling all Java files in $DIR/..."
 
 # Check if javac-algs4 exists
 if ! command -v javac-algs4 &> /dev/null; then
-    echo "❌ javac-algs4 not found. Using standard javac with manual classpath..."
-    javac -cp .:../lib/algs4.jar "$JAVA_FILE"
+    echo "🔧 Using standard javac with manual classpath..."
+    # FIXED: Correct classpath for your structure
+    javac -cp ".;/lib/algs4.jar" "$DIR"/*.java
+    #javac -cp ".:../lib/algs4.jar:../lib/stdlib.jar:01-funda/code" 01-funda/clients/*.java
 else
     echo "🔧 Using javac-algs4..."
-    javac-algs4 "$JAVA_FILE"
+    javac-algs4 "$DIR"/*.java
 fi
 
 if [ $? -eq 0 ]; then
-    echo "✅ Success: $CLASS_NAME.class created"
-    echo "💡 Run with: ./scripts/run.sh $DIR/$CLASS_NAME"
-    
-    # Show where the .class file was created
-    if [ -f "$DIR/$CLASS_NAME.class" ]; then
-        echo "📄 Class file: $DIR/$CLASS_NAME.class"
-    fi
+    echo "✅ Success: All .class files created in $DIR/"
+    echo "📄 Class files:"
+    ls -la "$DIR"/*.class 2>/dev/null || echo "   No .class files found"
 else
     echo "❌ Compilation failed"
     exit 1
